@@ -163,7 +163,9 @@ The examples discussed are intended to help users recognize and avoid phishing a
 
 ---
 
-## 🧠 Take the Interactive Phishing Quiz
+## 🧠 Interactive Quiz
+
+Test your knowledge with the interactive phishing awareness quiz.
 
 [Click here to launch the Interactive Quiz](https://dixit-akshita.github.io/CodeAlpha_PhishingAwarenessTraining/Resources/Phishing_Quiz.html).
 
