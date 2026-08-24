@@ -159,7 +159,13 @@ The examples discussed are intended to help users recognize and avoid phishing a
 
 ## 🎥 Project Video
 
-[Click to watch the Project Explanation on LinkedIn](https://lnkd.in/p/d2BTc4-h)
+[Click here watch the Project Explanation on LinkedIn](https://lnkd.in/p/d2BTc4-h)
+
+---
+
+## 🧠 Take the Interactive Phishing Quiz
+
+[Click here to launch the Interactive Quiz](https://dixit-akshita.github.io/CodeAlpha_PhishingAwarenessTraining/Resources/Phishing_Quiz.html)
 
 ---
 
