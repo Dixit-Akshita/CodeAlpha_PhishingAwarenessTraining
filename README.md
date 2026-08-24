@@ -157,5 +157,11 @@ The examples discussed are intended to help users recognize and avoid phishing a
 
 ---
 
+## 🎥 Project Video
+
+[Click to watch the Project Explanation on LinkedIn](https://lnkd.in/p/d2BTc4-h)
+
+---
+
 **CodeAlpha Cyber Security Internship — Task 2**
 **Phishing Awareness Training**
