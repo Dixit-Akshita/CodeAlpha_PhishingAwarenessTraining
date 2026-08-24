@@ -1,158 +1,941 @@
-============================================================
-              PHISHING AWARENESS QUIZ
-============================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-CodeAlpha Cyber Security Internship
-Task 2 – Phishing Awareness Training
+    <title>Phishing Awareness Quiz | CodeAlpha</title>
 
-Test your ability to identify common phishing and
-social engineering techniques.
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-------------------------------------------------------------
-QUESTION 1 — The Look-Alike Domain
-------------------------------------------------------------
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0b1120;
+            color: #e5e7eb;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+        }
 
-You receive an email that appears to come from your
-university. The link looks like:
+        .quiz-container {
+            width: 100%;
+            max-width: 850px;
+            background: #111827;
+            border: 1px solid #263244;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
 
-    https://university-portal.com
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-You normally use:
+        .header h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #f9fafb;
+        }
 
-    https://university.edu
+        .header p {
+            color: #9ca3af;
+            line-height: 1.6;
+        }
 
-What is the safest conclusion?
+        .badge {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 7px 14px;
+            border-radius: 20px;
+            background: #172554;
+            color: #93c5fd;
+            font-size: 13px;
+            font-weight: bold;
+        }
 
-A. Both links are safe because they contain the university name.
-B. The first link may be legitimate because it uses HTTPS.
-C. The domain is different, so the link should be verified
-   through the official university website.
-D. The first link is safe if the email contains the university logo.
+        .progress-section {
+            margin-bottom: 25px;
+        }
 
-Answer: C
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #9ca3af;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
 
-Explanation:
-The important part of a URL is the actual registered domain.
-A familiar name inside a URL does not prove that the website
-belongs to the organization.
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #1f2937;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 20%;
+            background: #3b82f6;
+            transition: width 0.3s ease;
+        }
+
+        .question-number {
+            color: #60a5fa;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .question-title {
+            font-size: 22px;
+            margin-bottom: 18px;
+            color: #f9fafb;
+        }
+
+        .scenario {
+            background: #0f172a;
+            border-left: 4px solid #3b82f6;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            color: #d1d5db;
+        }
+
+        .scenario code {
+            display: inline-block;
+            background: #1e293b;
+            padding: 5px 8px;
+            border-radius: 5px;
+            color: #93c5fd;
+            margin: 4px 0;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            width: 100%;
+            padding: 16px 18px;
+            background: #172033;
+            color: #e5e7eb;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 15px;
+            line-height: 1.5;
+            transition: 0.2s ease;
+        }
+
+        .option:hover:not(:disabled) {
+            border-color: #60a5fa;
+            background: #1e293b;
+            transform: translateY(-1px);
+        }
+
+        .option:disabled {
+            cursor: not-allowed;
+        }
+
+        .option.correct {
+            border-color: #22c55e;
+            background: #12301f;
+        }
+
+        .option.wrong {
+            border-color: #ef4444;
+            background: #35171a;
+        }
+
+        .feedback {
+            display: none;
+            margin-top: 22px;
+            padding: 20px;
+            border-radius: 10px;
+            line-height: 1.7;
+        }
+
+        .feedback.correct-feedback {
+            background: #12301f;
+            border: 1px solid #22c55e;
+        }
+
+        .feedback.wrong-feedback {
+            background: #35171a;
+            border: 1px solid #ef4444;
+        }
+
+        .feedback-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .feedback.correct-feedback .feedback-title {
+            color: #4ade80;
+        }
+
+        .feedback.wrong-feedback .feedback-title {
+            color: #f87171;
+        }
+
+        .explanation {
+            color: #d1d5db;
+            margin-bottom: 12px;
+        }
+
+        .learning-point {
+            color: #f9fafb;
+            font-weight: bold;
+        }
+
+        .next-btn,
+        .restart-btn {
+            display: none;
+            margin-top: 22px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .next-btn:hover,
+        .restart-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .result {
+            display: none;
+            text-align: center;
+        }
+
+        .result h2 {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #60a5fa;
+            margin: 15px 0;
+        }
+
+        .result-message {
+            color: #d1d5db;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .takeaway {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            line-height: 1.7;
+        }
+
+        .takeaway strong {
+            color: #60a5fa;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .quiz-container {
+                padding: 22px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .question-title {
+                font-size: 19px;
+            }
+
+            .option {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="quiz-container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="badge">CodeAlpha Cyber Security Internship</div>
+
+        <h1>Phishing Awareness Quiz</h1>
+
+        <p>
+            Test your ability to identify phishing, social engineering,
+            suspicious links, malicious attachments, and modern phishing techniques.
+        </p>
+    </div>
 
 
-------------------------------------------------------------
-QUESTION 2 — The Helpful "IT Support"
-------------------------------------------------------------
+    <!-- QUIZ AREA -->
+    <div id="quizArea">
 
-Someone claiming to be from your company's IT team calls you
-and says:
+        <div class="progress-section">
+            <div class="progress-info">
+                <span id="progressText">Question 1 of 5</span>
+                <span id="scoreText">Score: 0</span>
+            </div>
 
-    "We detected suspicious activity on your account.
-     Please tell me your OTP so I can secure it."
-
-What should you do?
-
-A. Provide the OTP because the caller knows your name.
-B. Ask the caller to send a verification email and then provide it.
-C. Refuse to share the OTP and contact IT through an official channel.
-D. Give only the first few digits of the OTP.
-
-Answer: C
-
-Explanation:
-Legitimate support staff should not require you to disclose
-one-time authentication codes. Verify unexpected requests
-through a trusted, independent channel.
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
 
 
-------------------------------------------------------------
-QUESTION 3 — The Unexpected Document
-------------------------------------------------------------
+        <div class="question-number" id="questionNumber">
+            Question 1
+        </div>
 
-You receive an email from an unfamiliar sender with the subject:
+        <h2 class="question-title" id="questionTitle"></h2>
 
-    "Salary_Revision_2026.xlsx"
+        <div class="scenario" id="scenario"></div>
 
-You were not expecting any salary-related document.
-
-What is the safest action?
-
-A. Open it in Excel and check the contents.
-B. Download it and scan it later.
-C. Verify the sender and expected document through another channel.
-D. Forward it to a colleague to check.
-
-Answer: C
-
-Explanation:
-Unexpected attachments can be used to deliver malware or
-lead to further attacks. Verification should happen before
-opening the file.
+        <div class="options" id="options"></div>
 
 
-------------------------------------------------------------
-QUESTION 4 — The CEO Request
-------------------------------------------------------------
+        <!-- FEEDBACK -->
+        <div class="feedback" id="feedback">
 
-You receive a message that appears to be from your CEO:
+            <div class="feedback-title" id="feedbackTitle"></div>
 
-    "I'm in a meeting. I need you to purchase gift cards
-     immediately and send me the codes."
+            <div class="explanation" id="explanation"></div>
 
-The email address looks slightly different from the CEO's
-usual address.
+            <div class="learning-point" id="learningPoint"></div>
 
-What technique is most likely being used?
-
-A. Social engineering and impersonation
-B. Software update
-C. Password hashing
-D. Network scanning
-
-Answer: A
-
-Explanation:
-Attackers may impersonate executives and create urgency or
-authority pressure to make employees act without verification.
+        </div>
 
 
-------------------------------------------------------------
-QUESTION 5 — The QR Code Trap
-------------------------------------------------------------
+        <button class="next-btn" id="nextButton" onclick="nextQuestion()">
+            Next Question →
+        </button>
 
-You receive an unexpected message containing a QR code with:
-
-    "Scan now to prevent your account from being suspended."
-
-Why should you be cautious?
-
-A. QR codes can never be used for phishing.
-B. The QR code may redirect you to a malicious or fake website.
-C. QR codes automatically protect your device.
-D. Scanning a QR code always opens the official website.
-
-Answer: B
-
-Explanation:
-Attackers can use QR codes to redirect victims to phishing
-pages. Always verify the destination before entering credentials
-or other sensitive information.
+    </div>
 
 
-============================================================
-                    ANSWER SUMMARY
-============================================================
+    <!-- FINAL RESULT -->
+    <div class="result" id="result">
 
-1. C — Verify the actual domain
-2. C — Never share OTPs; verify through official channels
-3. C — Verify unexpected attachments
-4. A — Social engineering and impersonation
-5. B — QR codes can lead to phishing websites
+        <h2>Quiz Complete!</h2>
 
-============================================================
-                    KEY TAKEAWAY
-============================================================
+        <div class="score" id="finalScore">
+            0 / 5
+        </div>
 
-STOP → CHECK → VERIFY → PROTECT → REPORT
+        <div class="result-message" id="resultMessage"></div>
 
-When a message creates urgency, fear, curiosity, or pressure,
-slow down and verify it before taking action.
+        <div class="takeaway">
+            <strong>STOP → CHECK → VERIFY → PROTECT → REPORT</strong>
+            <br><br>
+            When a message creates urgency, fear, curiosity, or pressure,
+            slow down and verify before taking action.
+        </div>
 
-============================================================
+        <button class="restart-btn" id="restartButton" onclick="restartQuiz()">
+            🔄 Retake Quiz
+        </button>
+
+    </div>
+
+
+    <div class="footer">
+        Educational cybersecurity awareness project — CodeAlpha Task 2
+    </div>
+
+</div>
+
+
+<script>
+
+    /*
+    ============================================================
+    QUIZ DATA
+    ============================================================
+    */
+
+    const questions = [
+
+        {
+            title: "The Look-Alike Domain",
+
+            scenario: `
+                You receive an email that appears to come from your university.
+                The email contains this link:
+
+                <br><br>
+
+                <code>https://university-portal.com</code>
+
+                <br><br>
+
+                But the university's official website that you normally use is:
+
+                <br><br>
+
+                <code>https://university.edu</code>
+
+                <br><br>
+
+                What is the safest action?
+            `,
+
+            options: [
+                "Click the link because it contains the university's name.",
+                "Trust it because the website uses HTTPS.",
+                "Verify the website through the university's official website or another trusted channel.",
+                "Trust it because the email contains the university logo."
+            ],
+
+            correct: 2,
+
+            explanation: `
+                The domain is different from the university's legitimate domain.
+                A familiar organization name, logo, or HTTPS connection does not
+                prove that a website is legitimate. Always verify suspicious links
+                through an independently trusted source.
+            `,
+
+            learning: "Learning Point: A familiar-looking website is not necessarily a legitimate website."
+        },
+
+
+        {
+            title: 'The "Helpful" IT Support',
+
+            scenario: `
+                You receive a phone call from someone claiming to be from your
+                company's IT department.
+
+                <br><br>
+
+                They say:
+
+                <br><br>
+
+                <strong>"We detected suspicious activity on your account.
+                Please tell me your OTP so I can secure it."</strong>
+
+                <br><br>
+
+                The caller knows your name and department.
+
+                <br><br>
+
+                What should you do?
+            `,
+
+            options: [
+                "Give the OTP because the caller knows your personal information.",
+                "Give the OTP but ask them to confirm their identity afterward.",
+                "Refuse to share the OTP and contact the IT department through an official channel.",
+                "Give only the first few digits of the OTP."
+            ],
+
+            correct: 2,
+
+            explanation: `
+                One-time passwords and authentication codes should never be shared
+                with someone who contacts you unexpectedly. Knowing your name or
+                department does not prove that the caller is legitimate.
+            `,
+
+            learning: "Learning Point: Never disclose OTPs or authentication codes to unexpected callers."
+        },
+
+
+        {
+            title: "The Unexpected Document",
+
+            scenario: `
+                You receive an email from an unfamiliar sender with the subject:
+
+                <br><br>
+
+                <code>Salary_Revision_2026.xlsx</code>
+
+                <br><br>
+
+                You were not expecting any salary-related document.
+
+                <br><br>
+
+                The email says:
+
+                <br><br>
+
+                <strong>"Please review this document immediately."</strong>
+
+                <br><br>
+
+                What is the safest action?
+            `,
+
+            options: [
+                "Open the spreadsheet to find out what it contains.",
+                "Download it first and scan it later.",
+                "Verify the sender and the expected document through another trusted channel.",
+                "Forward it to a colleague and ask them to open it."
+            ],
+
+            correct: 2,
+
+            explanation: `
+                Unexpected attachments can contain malicious content or lead to
+                further attacks. Verify the sender and the reason for the attachment
+                before opening or downloading it.
+            `,
+
+            learning: "Learning Point: Unexpected attachments deserve verification—even when the filename looks professional."
+        },
+
+
+        {
+            title: "The CEO Request",
+
+            scenario: `
+                You receive a message that appears to come from your CEO:
+
+                <br><br>
+
+                <strong>
+                "I'm in a meeting and need this handled immediately.
+                Purchase five gift cards and send me the codes."
+                </strong>
+
+                <br><br>
+
+                You notice that the sender's email address is slightly different
+                from the CEO's normal address.
+
+                <br><br>
+
+                What technique is most likely being used?
+            `,
+
+            options: [
+                "Social engineering and impersonation",
+                "Password hashing",
+                "Network scanning",
+                "Software updating"
+            ],
+
+            correct: 0,
+
+            explanation: `
+                The attacker is impersonating a trusted authority and creating
+                urgency to prevent the victim from verifying the request.
+                This is a common social engineering tactic.
+            `,
+
+            learning: "Learning Point: Urgency + authority + an unusual request = verify before acting."
+        },
+
+
+        {
+            title: "The QR Code Trap",
+
+            scenario: `
+                You receive an unexpected message:
+
+                <br><br>
+
+                <strong>
+                "Your account will be suspended today.
+                Scan the QR code below to verify your identity."
+                </strong>
+
+                <br><br>
+
+                The message contains a QR code.
+
+                <br><br>
+
+                Why should you be cautious?
+            `,
+
+            options: [
+                "QR codes cannot be used in phishing attacks.",
+                "The QR code may redirect you to a malicious or fake website.",
+                "QR codes automatically verify the identity of the sender.",
+                "Scanning a QR code always opens the organization's official website."
+            ],
+
+            correct: 1,
+
+            explanation: `
+                Attackers can use QR codes to redirect victims to fake login pages
+                or malicious websites. Always verify the request and destination
+                before entering sensitive information.
+            `,
+
+            learning: "Learning Point: Don't trust a QR code simply because it looks harmless."
+        }
+
+    ];
+
+
+    /*
+    ============================================================
+    QUIZ VARIABLES
+    ============================================================
+    */
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+
+    /*
+    ============================================================
+    LOAD QUESTION
+    ============================================================
+    */
+
+    function loadQuestion() {
+
+        answered = false;
+
+        const question = questions[currentQuestion];
+
+        document.getElementById("questionNumber").textContent =
+            "Question " + (currentQuestion + 1);
+
+        document.getElementById("progressText").textContent =
+            "Question " + (currentQuestion + 1) + " of " + questions.length;
+
+        document.getElementById("scoreText").textContent =
+            "Score: " + score;
+
+        document.getElementById("questionTitle").textContent =
+            question.title;
+
+        document.getElementById("scenario").innerHTML =
+            question.scenario;
+
+
+        const progress =
+            ((currentQuestion + 1) / questions.length) * 100;
+
+        document.getElementById("progressFill").style.width =
+            progress + "%";
+
+
+        const optionsContainer =
+            document.getElementById("options");
+
+        optionsContainer.innerHTML = "";
+
+
+        question.options.forEach((option, index) => {
+
+            const button = document.createElement("button");
+
+            button.className = "option";
+
+            button.textContent =
+                String.fromCharCode(65 + index) + ". " + option;
+
+            button.onclick = function() {
+                selectAnswer(index, button);
+            };
+
+            optionsContainer.appendChild(button);
+
+        });
+
+
+        document.getElementById("feedback").style.display = "none";
+
+        document.getElementById("nextButton").style.display = "none";
+    }
+
+
+    /*
+    ============================================================
+    SELECT ANSWER
+    ============================================================
+    */
+
+    function selectAnswer(selectedIndex, selectedButton) {
+
+        if (answered) {
+            return;
+        }
+
+        answered = true;
+
+        const question = questions[currentQuestion];
+
+        const optionButtons =
+            document.querySelectorAll(".option");
+
+
+        // Disable all options after selection
+
+        optionButtons.forEach(button => {
+            button.disabled = true;
+        });
+
+
+        const feedback =
+            document.getElementById("feedback");
+
+        const feedbackTitle =
+            document.getElementById("feedbackTitle");
+
+        const explanation =
+            document.getElementById("explanation");
+
+        const learningPoint =
+            document.getElementById("learningPoint");
+
+
+        /*
+        ------------------------------------------------------------
+        CORRECT ANSWER
+        ------------------------------------------------------------
+        */
+
+        if (selectedIndex === question.correct) {
+
+            score++;
+
+            selectedButton.classList.add("correct");
+
+            feedback.className =
+                "feedback correct-feedback";
+
+            feedbackTitle.textContent =
+                "✓ Correct!";
+
+            explanation.innerHTML =
+                question.explanation;
+
+        }
+
+
+        /*
+        ------------------------------------------------------------
+        WRONG ANSWER
+        ------------------------------------------------------------
+        */
+
+        else {
+
+            selectedButton.classList.add("wrong");
+
+            optionButtons[question.correct]
+                .classList.add("correct");
+
+            feedback.className =
+                "feedback wrong-feedback";
+
+            feedbackTitle.textContent =
+                "✗ Not quite!";
+
+            explanation.innerHTML =
+                question.explanation +
+                "<br><br><strong>Correct Answer: " +
+                String.fromCharCode(65 + question.correct) +
+                "</strong>";
+
+        }
+
+
+        learningPoint.textContent =
+            question.learning;
+
+
+        document.getElementById("scoreText").textContent =
+            "Score: " + score;
+
+
+        feedback.style.display = "block";
+
+        document.getElementById("nextButton").style.display =
+            "block";
+
+
+        // Change button text on final question
+
+        if (currentQuestion === questions.length - 1) {
+
+            document.getElementById("nextButton").textContent =
+                "View Final Result →";
+
+        }
+
+    }
+
+
+    /*
+    ============================================================
+    NEXT QUESTION
+    ============================================================
+    */
+
+    function nextQuestion() {
+
+        currentQuestion++;
+
+        if (currentQuestion < questions.length) {
+
+            loadQuestion();
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+        else {
+
+            showResult();
+
+        }
+
+    }
+
+
+    /*
+    ============================================================
+    SHOW FINAL RESULT
+    ============================================================
+    */
+
+    function showResult() {
+
+        document.getElementById("quizArea").style.display =
+            "none";
+
+        document.getElementById("result").style.display =
+            "block";
+
+
+        document.getElementById("finalScore").textContent =
+            score + " / " + questions.length;
+
+
+        let message = "";
+
+
+        if (score === 5) {
+
+            message =
+                "Excellent! You demonstrated strong phishing awareness " +
+                "and made the safest choice in every scenario.";
+
+        }
+
+        else if (score >= 3) {
+
+            message =
+                "Good job! You identified most of the phishing indicators. " +
+                "Keep practicing so you can recognize suspicious messages quickly.";
+
+        }
+
+        else {
+
+            message =
+                "Keep learning! Phishing attacks often rely on urgency, " +
+                "fear, authority, and deception. Review the explanations " +
+                "and try the quiz again.";
+
+        }
+
+
+        document.getElementById("resultMessage").textContent =
+            message;
+
+
+        document.getElementById("restartButton").style.display =
+            "block";
+
+    }
+
+
+    /*
+    ============================================================
+    RESTART QUIZ
+    ============================================================
+    */
+
+    function restartQuiz() {
+
+        currentQuestion = 0;
+
+        score = 0;
+
+        document.getElementById("quizArea").style.display =
+            "block";
+
+        document.getElementById("result").style.display =
+            "none";
+
+        document.getElementById("nextButton").textContent =
+            "Next Question →";
+
+        loadQuestion();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /*
+    ============================================================
+    START QUIZ
+    ============================================================
+    */
+
+    loadQuestion();
+
+</script>
+
+</body>
+</html>
