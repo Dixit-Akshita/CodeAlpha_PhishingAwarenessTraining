@@ -159,7 +159,7 @@ The examples discussed are intended to help users recognize and avoid phishing a
 
 ## 🎥 Project Video
 
-[Click here watch the Project Explanation on LinkedIn](https://lnkd.in/p/d2BTc4-h)
+[Click here to watch the Project Explanation on LinkedIn](https://lnkd.in/p/d2BTc4-h)
 
 ---
 
